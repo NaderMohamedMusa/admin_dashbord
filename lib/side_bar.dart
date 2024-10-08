@@ -5,28 +5,22 @@ import 'side_bar_item.dart';
 
 class SideBar extends StatefulWidget {
   const SideBar({
-    Key? key,
+    super.key,
     required this.items,
     required this.selectedRoute,
     this.onSelected,
     this.width = 240.0,
     this.iconColor,
     this.activeIconColor,
-    this.textStyle = const TextStyle(
-      color: Color(0xFF337ab7),
-      fontSize: 12,
-    ),
-    this.activeTextStyle = const TextStyle(
-      color: Color(0xFF337ab7),
-      fontSize: 12,
-    ),
+    this.textStyle = const TextStyle(color: Color(0xFF337ab7),fontSize: 12),
+    this.activeTextStyle = const TextStyle(color: Color(0xFF337ab7), fontSize: 12),
     this.backgroundColor = const Color(0xFFEEEEEE),
     this.activeBackgroundColor = const Color(0xFFE7E7E7),
     this.borderColor = const Color(0xFFE7E7E7),
     this.scrollController,
     this.header,
     this.footer,
-  }) : super(key: key);
+  });
 
   final List<AdminMenuItem> items;
   final String selectedRoute;
@@ -44,7 +38,7 @@ class SideBar extends StatefulWidget {
   final Widget? footer;
 
   @override
-  _SideBarState createState() => _SideBarState();
+  State<SideBar> createState() => _SideBarState();
 }
 
 class _SideBarState extends State<SideBar> with SingleTickerProviderStateMixin {
@@ -97,7 +91,7 @@ class _SideBarState extends State<SideBar> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: _sideBarWidth,
       child: _child,
     );

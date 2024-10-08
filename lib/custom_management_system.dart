@@ -23,7 +23,6 @@ class CustomManagementSystem extends StatefulWidget {
 
 class _CustomManagementSystemState extends State<CustomManagementSystem>
     with SingleTickerProviderStateMixin {
-  late AppBar? _appBar;
   late AnimationController _animationController;
   late Animation _animation;
   bool _isMobile = false;
@@ -34,7 +33,6 @@ class _CustomManagementSystemState extends State<CustomManagementSystem>
   @override
   void initState() {
     super.initState();
-    _appBar = _buildAppBar(widget.appBar, widget.sideBar);
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 300),
@@ -136,115 +134,79 @@ class _CustomManagementSystemState extends State<CustomManagementSystem>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: widget.backgroundColor,
-      appBar: _appBar,
       body: AnimatedBuilder(
         animation: _animation,
-        builder: (_, __) => widget.sideBar == null
+        builder: (_, __) =>
+        widget.sideBar == null
             ? Row(
-          children: [
-            Expanded(
-              child: Align(
-                alignment: Alignment.topCenter,
-                child: widget.body,
-              ),
-            ),
-          ],
-        )
+                children: [
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.topCenter,
+                      child: widget.body,
+                    ),
+                  ),
+                ],
+              )
             : _isMobile
-            ? Stack(
-          children: [
-            GestureDetector(
-              onHorizontalDragStart: _onDragStart,
-              onHorizontalDragUpdate: _onDragUpdate,
-              onHorizontalDragEnd: _onDragEnd,
-            ),
-            widget.body,
-            if (_animation.value > 0)
-              Container(
-                color: Colors.black
-                    .withAlpha((150 * _animation.value).toInt()),
-              ),
-            if (_animation.value == 1)
-              GestureDetector(
-                onTap: _toggleSidebar,
-                onHorizontalDragUpdate: _dragCloseDrawer,
-              ),
-            ClipRect(
-              child: SizedOverflowBox(
-                size: Size(
-                    (widget.sideBar?.width ?? 1.0) * _animation.value,
-                    double.infinity),
-                child: widget.sideBar,
-              ),
-            ),
-          ],
-        )
-            : Row(
-          children: [
-            widget.sideBar != null
-                ? ClipRect(
-              child: SizedOverflowBox(
-                size: Size(
-                    (widget.sideBar?.width ?? 1.0) *
-                        _animation.value,
-                    double.infinity),
-                child: widget.sideBar,
-              ),
-            )
-                : const SizedBox(),
-            Expanded(
-              child: Align(
-                alignment: Alignment.topCenter,
-                child: widget.body,
-              ),
-            ),
-          ],
-        ),
+                ? Stack(
+                    children: [
+                      GestureDetector(
+                        onHorizontalDragStart: _onDragStart,
+                        onHorizontalDragUpdate: _onDragUpdate,
+                        onHorizontalDragEnd: _onDragEnd,
+                      ),
+                      widget.body,
+                      if (_animation.value > 0)
+                        Container(
+                          color: Colors.black
+                              .withAlpha((150 * _animation.value).toInt()),
+                        ),
+                      if (_animation.value == 1)
+                        GestureDetector(
+                          onTap: _toggleSidebar,
+                          onHorizontalDragUpdate: _dragCloseDrawer,
+                        ),
+                      ClipRect(
+                        child: SizedOverflowBox(
+                          size: Size(
+                              (widget.sideBar?.width ?? 1.0) * _animation.value,
+                              double.infinity),
+                          child: widget.sideBar,
+                        ),
+                      ),
+                    ],
+                  )
+                : Row(
+                    children: [
+                      widget.sideBar != null
+                          ? ClipRect(
+                              child: SizedOverflowBox(
+                                size: Size(
+                                    (widget.sideBar?.width ?? 1.0) *
+                                        _animation.value,
+                                    double.infinity),
+                                child: widget.sideBar,
+                              ),
+                            )
+                          : const SizedBox(),
+
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.topCenter,
+                          child: widget.body,
+                        ),
+                      ),
+                    ],
+                  ),
       ),
     );
   }
 
-  AppBar? _buildAppBar(AppBar? appBar, SideBar? sideBar) {
-    if (appBar == null) {
-      return null;
-    }
-
-    final leading = sideBar != null
-        ? IconButton(
-      icon: const Icon(Icons.menu),
-      onPressed: _toggleSidebar,
-    )
-        : appBar.leading;
-    final shadowColor = appBar.shadowColor ?? Colors.transparent;
-
-    return AppBar(
-      leading: leading,
-      automaticallyImplyLeading: appBar.automaticallyImplyLeading,
-      title: appBar.title,
-      actions: appBar.actions,
-      flexibleSpace: appBar.flexibleSpace,
-      bottom: appBar.bottom,
-      elevation: appBar.elevation,
-      scrolledUnderElevation: appBar.scrolledUnderElevation,
-      notificationPredicate: appBar.notificationPredicate,
-      shadowColor: shadowColor,
-      surfaceTintColor: appBar.surfaceTintColor,
-      shape: appBar.shape,
-      backgroundColor: appBar.backgroundColor,
-      foregroundColor: appBar.foregroundColor,
-      iconTheme: appBar.iconTheme,
-      actionsIconTheme: appBar.actionsIconTheme,
-      primary: appBar.primary,
-      centerTitle: appBar.centerTitle ?? false,
-      excludeHeaderSemantics: appBar.excludeHeaderSemantics,
-      titleSpacing: appBar.titleSpacing,
-      toolbarOpacity: appBar.toolbarOpacity,
-      bottomOpacity: appBar.bottomOpacity,
-      toolbarHeight: appBar.toolbarHeight,
-      leadingWidth: appBar.leadingWidth,
-      toolbarTextStyle: appBar.toolbarTextStyle,
-      titleTextStyle: appBar.titleTextStyle,
-      systemOverlayStyle: appBar.systemOverlayStyle,
-    );
-  }
+// final leading = sideBar != null
+//       ? IconButton(
+//     icon: const Icon(Icons.menu),
+//     onPressed: _toggleSidebar,
+//   )
+//
 }
